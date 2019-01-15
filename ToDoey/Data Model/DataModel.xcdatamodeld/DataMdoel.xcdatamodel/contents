@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14460.32" systemVersion="18A391" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="Category" representedClassName="Category" syncable="YES" codeGenerationType="class">
+    <entity name="Category" representedClassName="Category" syncable="YES">
         <attribute name="name" attributeType="String" syncable="YES"/>
         <relationship name="toDoItems" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ToDoItem" inverseName="parentCategory" inverseEntity="ToDoItem" syncable="YES"/>
     </entity>
-    <entity name="ToDoItem" representedClassName=".ToDoItem" syncable="YES" codeGenerationType="class">
+    <entity name="ToDoItem" representedClassName=".ToDoItem" syncable="YES">
         <attribute name="checked" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="title" attributeType="String" syncable="YES"/>
         <relationship name="parentCategory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Category" inverseName="toDoItems" inverseEntity="Category" syncable="YES"/>
     </entity>
     <elements>
-        <element name="ToDoItem" positionX="8287.15625" positionY="-6641.63671875" width="128" height="88"/>
-        <element name="Category" positionX="8074.984375" positionY="-6647.4765625" width="128" height="73"/>
+        <element name="Category" positionX="8074.984375" positionY="-6647.4765625" width="128" height="75"/>
+        <element name="ToDoItem" positionX="8287.15625" positionY="-6641.63671875" width="128" height="90"/>
     </elements>
 </model>
