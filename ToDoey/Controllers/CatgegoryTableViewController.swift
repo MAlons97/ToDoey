@@ -8,8 +8,9 @@
 
 import UIKit
 import RealmSwift
+import ChameleonFramework
 
-class CatgegoryTableViewController: UITableViewController {
+class CatgegoryTableViewController: SwipeTableViewController {
     
     let realm = try! Realm()
 
@@ -20,15 +21,27 @@ class CatgegoryTableViewController: UITableViewController {
         
         loadCategories()
         
+        tableView.separatorStyle = .none
+        
     }
     
     //MARK: - TableView Datasource Methods
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-       
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath)
         
-        cell.textLabel?.text =  categories?[indexPath.row].name ?? "No Categories Added Yet"
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
+        
+        if let category = categories?[indexPath.row] {
+            
+            guard let cellBackgroundColor = UIColor(hexString: category.backgroundColor) else {fatalError("Category has no color value")}
+            
+            cell.textLabel?.text =  category.name
+            
+            cell.backgroundColor = cellBackgroundColor
+            
+            cell.textLabel?.textColor = ContrastColorOf(cellBackgroundColor, returnFlat: true)
+            
+        }
         
         return cell
     }
@@ -62,6 +75,25 @@ class CatgegoryTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
+    func deleteCategory(category: Category) {
+
+        do {
+            try realm.write {
+                realm.delete(category)
+            }
+        }
+        catch {
+            print("Error Deleting Category, \(error)")
+        }
+
+    }
+    
+    override func updateModel(at indexPath: IndexPath) {
+        if let categoryForDeletion = self.categories?[indexPath.row]{
+            deleteCategory(category: categoryForDeletion)
+        }
+    }
+    
     //MARK: - Add New Categories
 
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
@@ -75,6 +107,7 @@ class CatgegoryTableViewController: UITableViewController {
             
             let newCategory = Category()
             newCategory.name = textField.text!
+            newCategory.backgroundColor = RandomFlatColor().hexValue()
             
             self.save(category: newCategory)
             
@@ -115,6 +148,7 @@ class CatgegoryTableViewController: UITableViewController {
         
     }
 
-    
 }
+
+
 
